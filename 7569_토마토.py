@@ -1,12 +1,9 @@
 import sys
 from collections import deque
 import copy
-import math
 import time
+
 input = sys.stdin.readline
-
-
-start = time.time()
 
 
 def bfs():
@@ -55,7 +52,7 @@ def bfs():
 
 m, n, h = map(int, input().split())
 matrix = [[list(map(int, input().split())) for _ in range(n)] for _ in range(h)]
-
+start = time.time()
 print(bfs())
 
 end = time.time()
