@@ -1,16 +1,20 @@
 import sys
 input = sys.stdin.readline
 
-n, k = map(int, input().split())
-coins = [int(input()) for _ in range(n)]
+n = int(input())
+meetings = sorted([list(map(int, input().split())) for _ in range(n)])
 
-cnt = 0
-i = n-1
-while i > -1:
-    if coins[i] <= k:
-        cnt += k//coins[i]
-        k = k%coins[i]
+max_rst = -1
+for i in range(n):
+    if n - i + 1 <= max_rst:
+        break
+    s, e = meetings[i]
+    cnt = 1
+    for j in range(i+1, n):
+        ns, ne = meetings[j]
+        if ns >= e:
+            cnt += 1
+            s, e = ns, ne
+    max_rst = max(max_rst, cnt)
 
-    i -= 1
-
-print(cnt)
+print(max_rst)
