@@ -3,8 +3,24 @@ import sys
 input = sys.stdin.readline
 
 n, k = map(int, input().split())
-mv_list = [tuple(map(int, input().split())) for _ in range(n)]
-bag_weights = [int(input()) for _ in range(k)]
+jewels = []
+for _ in range(n):
+    heappush(jewels, tuple(map(int, input().split())))  # min heap - 가벼운순
+bags = [int(input()) for _ in range(k)]
+bags.sort()  # 가벼운순
+
+# 풀이2
+result = 0
+candidate = []
+for b in bags:
+    while jewels and b >= jewels[0][0]:
+        w, v = heappop(jewels)
+        heappush(candidate, -v)  # max heap - value가 높은 순으로
+
+    if candidate:
+        result += -heappop(candidate)
+
+print(result)
 
 # 풀이1
 # mv_list.sort(key=lambda mv: mv[1], reverse=True)
@@ -23,23 +39,3 @@ bag_weights = [int(input()) for _ in range(k)]
 #             result += v
 #             break
 #     i += 1
-
-# 풀이2
-mv_list.sort()
-bag_weights.sort()
-
-for i in range(k):
-    max_heap = []
-    weight = bag_weights[i]
-    for j in range(n):
-        if mv_list[j][0] <= weight:
-            heappush(max_heap, (-mv_list[j][1]))
-
-
-print(result)
-
-
-
-
-
-
