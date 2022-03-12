@@ -16,7 +16,7 @@ def dfs(i, j):
     if dp[i][j] != -1:  # 이미 방문했으면
         return dp[i][j]
 
-    dp[i][j] = 0
+    dp[i][j] = 0  # 방문체크
     for di, dj in DIRECTION:
         ni, nj = i + di, j + dj
         if 0 <= ni < m and 0 <= nj < n and matrix[ni][nj] < matrix[i][j]:
@@ -29,6 +29,6 @@ DIRECTION = ((0, 1), (1, 0), (0, -1), (-1, 0))
 
 m, n = map(int, input().split())
 matrix = [list(map(int, input().split())) for _ in range(m)]
-dp = [[-1] * n for _ in range(m)]
+dp = [[-1] * n for _ in range(m)]  # 방문체크를 위해 초기값을 -1로 설정
 
 print(dfs(0, 0))
