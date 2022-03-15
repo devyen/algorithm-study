@@ -1,9 +1,10 @@
 def solution(width, height, diagonals):
     def dfs(i, j, used):  # s: 대각선 이용 유무
         # nonlocal answer
-        if i == 0 and j == width and used:
-            # answer += 1
-            return 1
+        if i == 0 and j == width:
+            if used:
+                return 1
+            return 0
 
         if matrix[i][j] != -1:
             return matrix[i][j]
