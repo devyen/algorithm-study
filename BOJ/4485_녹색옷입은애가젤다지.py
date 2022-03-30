@@ -9,7 +9,7 @@ def Dijkstra():
 
     # 시작점 [0][0] 방문
     distances[0][0] = matrix[0][0]
-    heapq.heappush(priority_q, (matrix[0][0], 0, 0))
+    heapq.heappush(priority_q, (matrix[0][0], 0, 0))  # 가중치, i, j
 
     while priority_q:
         dis, i, j = heapq.heappop(priority_q)
