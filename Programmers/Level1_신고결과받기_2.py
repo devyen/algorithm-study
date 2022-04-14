@@ -1,0 +1,25 @@
+def solution(id_list, report, k):
+    n = len(id_list)
+    ids = {}
+    cnt = 0
+    for id in id_list:
+        ids[id] = cnt
+        cnt += 1
+
+    report_cnt = [set([]) for _ in range(n)]  # set으로 중복 제거
+    for r in report:
+        a, b = r.split()
+        a, b = ids[a], ids[b]  # 닉네임을 번호로 변경
+        report_cnt[b].append(a)
+
+    answer = [0] * n
+    for reporters in report_cnt:
+        if len(reporters) >= k:
+            for reporter in reporters:
+                answer[reporter] += 1
+
+    return answer
+
+
+a = solution(["muzi", "frodo", "apeach", "neo"], ["muzi frodo","apeach frodo","frodo neo","muzi neo","apeach muzi"], 2)
+print(a)
