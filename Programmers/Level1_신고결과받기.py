@@ -13,7 +13,7 @@ def solution(id_list, report, k):
             for v in val:
                 get_mail[v] += 1
 
-    answer = [val for key, val in get_mail.items()]
+    answer = [val for key, val in get_mail.items()]  # items가 순서 보장이 안됐었는데 -> 3.6부터는 보장됨
     return answer
 
 
