@@ -9,7 +9,7 @@ def solution(s):
     subsets = []
     split_list = s[1:-1].split('}')
     for sp in split_list:
-        if len(sp) == 0:
+        if len(sp) == 0:  # ''
             continue
         tmp = set([])
         for c in sp.replace('{', '').split(','):
