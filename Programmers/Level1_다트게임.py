@@ -3,27 +3,23 @@ idea
 '''
 
 
-def to_binary(x, n):
-    binary = ''
-    while x > 0:
-        binary = str(x % 2) + binary
-        x = x // 2
-    binary = '0' * (n - len(binary)) + binary
-    return binary
+def solution(dartResult):
+    bonus = {'S': 1, 'D': 2, 'T': 3}
+    scores = [0]  # 첫 번째 기회에서 *가 나오는 경우를 위해 맨앞에 0 세팅
+    score = ''
+    for char in dartResult:
+        if char in ['S', 'D', 'T']:
+            scores.append(int(score)**bonus[char])
+            score = ''
+        elif char == '*':
+            scores[-1] *= 2
+            scores[-2] *= 2
+        elif char == '#':
+            scores[-1] = -scores[-1]
+        else:
+            score += char
+    return sum(scores)
 
 
-def solution(n, arr1, arr2):
-    matrix = [[' ']*n for _ in range(n)]
-    for i in range(n):
-        bin1, bin2 = to_binary(arr1[i], n), to_binary(arr2[i], n)
-        for j in range(n):
-            matrix[i][j] = '#' if (int(bin1[j]) or int(bin2[j])) else ' '
-
-    answer = []
-    for i in range(n):
-        answer.append(''.join(matrix[i]))
-    return answer
-
-
-result = solution(5, [9, 20, 28, 18, 11], 	[30, 1, 21, 17, 28])
+result = solution('1D2S#10S')
 print(result)
