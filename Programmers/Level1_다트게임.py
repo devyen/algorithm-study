@@ -1,3 +1,8 @@
+'''
+idea
+'''
+
+
 def to_binary(x, n):
     binary = ''
     while x > 0:
