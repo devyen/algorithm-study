@@ -6,14 +6,12 @@ def solution(relation):
 
     candidate_keys = []
     for i in range(1, n+1):
-        combs = list(combinations(range(n), i))
-
-        # 해당 속성이 후보키인지 검사
+        combs = list(combinations(range(n), i))  # 속성 조합 생성
         for comb in combs:
-            # 최소성 체크
+            # 최소성 체크 - candidate_keys에 포함되어있는지
             flag = 0
             for key in candidate_keys:
-                a = set(key)
+                a = set(key)  # 교집합 연산을 위해 set으로 변환
                 b = set(comb)
                 if len(a & b) == len(a):  # 집합 a가 b에 포함되어있는지
                     flag = 1
