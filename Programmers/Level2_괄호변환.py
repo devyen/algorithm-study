@@ -15,10 +15,7 @@ def is_wright(w):
 def get_reverse(w):
     rst = ''
     for c in w:
-        if c == '(':
-            rst += ')'
-        else:
-            rst += '('
+        rst += ')' if c == '(' else '('
     return rst
 
 
@@ -26,6 +23,7 @@ def bracket(w):
     if w == '':
         return ''
 
+    # 균형잡힌 괄호 문자열 u, v로 분리
     cnt1 = cnt2 = 0
     for i in range(len(w)):
         if w[i] == '(':
