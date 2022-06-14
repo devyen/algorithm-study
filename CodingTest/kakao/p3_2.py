@@ -1,6 +1,9 @@
 # from collections import deque
 import math
 
+# 다익스트라
+
+
 def solution(alp, cop, problems):
     # 풀수있는 문제 없는 문제 먼저 가르기
     # solved, unsolved = deque([]), deque([])
