@@ -1,21 +1,30 @@
-def solution(id_list, report, k):
-    report_cnt = {}
-    for r in report:
-        a, b = r.split()
-        report_cnt[b] = list(set(report_cnt.get(b, []) + [a]))
+def solution(new_id):
+    for s in '~!@#$%^&*()=+[{]}:?,<>/':
+        new_id = new_id.replace(s, '')
+    new_id = new_id.lower()
+    i = 0
+    flag = 0
+    cut = 0
+    tmp = ''
+    normal = 0
+    while i < len(new_id):
+        if new_id[i] == '.':
+            s = i
+            tmp += new_id[normal:s] + '.'
+            while new_id[i] == '.':
+                i += 1
+            normal = i
+        i += 1
+    print(new_id)
+    if len(new_id) == 0:
+        new_id = 'a'
+    if len(new_id) >= 16:
+        new_id = new_id[:15].strip('.')
+    while len(new_id) < 3:
+        new_id += new_id[-1]
 
-    get_mail = {}
-    for id in id_list:
-        get_mail[id] = 0
-
-    for key, val in report_cnt.items():
-        if len(val) >= k:
-            for v in val:
-                get_mail[v] += 1
-
-    answer = [val for key, val in get_mail.items()]
-    return answer
+    return new_id
 
 
-result = solution(["muzi", "frodo", "apeach", "neo"], ["muzi frodo","apeach frodo","frodo neo","muzi neo","apeach muzi"], 2)
+result = solution("...!@BaT#*...y.abcdefghijklm")
 print(result)
