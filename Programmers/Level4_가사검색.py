@@ -1,27 +1,30 @@
 '''
 idea
-문자열 원소를 하나씩 순회하면서
-'S', 'D', 'T'가 나올 때 score를 append
+1. queries의 키워드들을 접두사/접미사로 분리하기
+2. 첫글자/끝글자로 정렬을 한 후 해당 부분만 확인하면 시간을 줄일 수 있을것같음
 '''
 
 
-def solution(dartResult):
-    bonus = {'S': 1, 'D': 2, 'T': 3}
-    scores = [0]  # 첫 번째 기회에서 *가 나오는 경우를 위해 맨앞에 0 세팅
-    score = ''
-    for char in dartResult:
-        if char in ['S', 'D', 'T']:
-            scores.append(int(score)**bonus[char])
-            score = ''
-        elif char == '*':
-            scores[-1] *= 2
-            scores[-2] *= 2
-        elif char == '#':
-            scores[-1] = -scores[-1]
-        else:
-            score += char
-    return sum(scores)
+def solution(words, queries):
+    answer = [0]*len(queries)
+    sorted_queries = sorted(list(enumerate(queries)), key=lambda x: x[1])
+
+    for idx, query in enumerate(queries):
+        # query == 'fro??'
+        for word in words:
+            if len(word) != len(query):
+                continue
+            i = 0
+            flag = 0
+            while i < len(word):
+                if word[i] != query[i] and query[i] != '?':
+                    flag = 1
+                    break
+                i += 1
+            if not flag:
+                answer[idx] += 1
+    return answer
 
 
-result = solution('1D2S#10S')
+result = solution(["frodo", "front", "frost", "frozen", "frame", "kakao"], ["fro??", "????o", "fr???", "fro???", "pro?"])
 print(result)
