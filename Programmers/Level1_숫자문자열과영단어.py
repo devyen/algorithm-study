@@ -13,7 +13,7 @@ def solution(s):
             answer += str(char)
             continue
         word += char
-        if NUMBERS.get(word, -1) != -1:
+        if word in NUMBERS:
             answer += str(NUMBERS[word])
             word = ''
     return int(answer)
