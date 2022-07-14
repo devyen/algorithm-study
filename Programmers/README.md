@@ -522,3 +522,159 @@ for key in candidate_keys:
   - 사전 검색, 자동완성 기능 등에서 사용
   - 단점: 저장 공간이 크다
   - 장점: 문자열을 빠르게 탐색할 수 있다.
+
+
+
+
+
+# 07.04
+
+## :film_strip: Level3. 광고 삽입
+
+- 모든 logs를 돌면서 모든 초에 대해 카운트를 저장
+- 완전탐색: 모든 구간을 돌며 최대값을 찾는다
+
+![image-20220630121944191](README.assets/image-20220630121944191.png)
+
+- 인덱스 틀린부분 +1 씩 고침
+- ![image-20220702233316054](README.assets/image-20220702233316054.png)
+
+
+
+## :gem: Level3. 보석 쇼핑
+
+- 구간의 시작점은 i, 끝점은 j
+- 구간의 길이가 최소값을 넘거나, 모든 보석이 포함되면 i를 하나씩 늘리고, 그렇지 않으면 j를 하나씩 늘리는 방식
+
+```python
+def solution(gems):
+    def check_all_in():
+        for v in dicts.values():
+            if v < 1:
+                return False
+        return True
+
+    dicts = {}
+    for gem in set(gems):
+        dicts[gem] = 0
+
+    min_l = len(gems)+1
+    i = j = 0
+    answer = []
+    while i < len(gems) and j <= len(gems):
+        if j < i:
+            j = i
+        l = j-i
+        if l >= min_l:  # 가지치기
+            dicts[gems[i]] -= 1
+            i += 1
+            continue
+        if check_all_in():
+            min_l = l
+            answer = [i+1, j]
+            dicts[gems[i]] -= 1
+            i += 1
+        else:
+            if j >= len(gems):
+                break
+            dicts[gems[j]] += 1
+            j += 1
+
+    return answer
+```
+
+
+
+![image-20220703103204283](README.assets/image-20220703103204283.png)
+
+- 케이스 12, 13을 통과하려면 모든 보석이 포함되어있는지 검사하는걸 for문으로 검사하지말고 딕셔너리의 길이로 검사해야한다. 그래서 cnt가 0이 되면 아예 딕셔너리에서 del 해준다!
+
+  - before
+
+    ```python
+    def check_all_in():
+        for v in dicts.values():
+            if v < 1:
+                return False
+        return True
+    ```
+
+  - after
+
+    ```python
+    if len(dicts) == goal:
+        min_l = l
+        answer = [i+1, j]
+        dicts[gems[i]] -= 1
+        if dicts[gems[i]] == 0:
+            del dicts[gems[i]]
+        i += 1
+    ```
+
+    
+
+![image-20220703105321624](README.assets/image-20220703105321624.png)
+
+
+
+## Level3. 외벽 점검
+
+
+
+
+
+
+
+# 07.11
+
+## :iphone: Level1. 키패드 누르기
+
+- 숫자가 2, 5, 8, 0일 때 왼손 엄지와 오른손 엄지의 위치와 누르려는 숫자 사이의 거리를 비교해서 더 가까운 손으로 누른다.
+
+- 포인트: 숫자 간의 거리를 어떻게 계산할지가 포인트. 번호판은 고정되어있다.
+  - 이렇게 저렇게 해보다가 두 숫자의 **절댓값을 3으로 나눈 몫과 나머지를 더한값**이 두 숫자 사이의 거리라는 규칙을 알아냈다!
+  - 숫자 키패드가 3Xn 형식이라서 이런 규칙이 생기는 것 같다.
+
+
+
+## Level1. 숫자 문자열과 영단어
+
+- 먼저 NUMBERS라는 딕셔너리를 세팅했다.
+
+- 틀렸던 부분
+
+  - `if NUMBERS.get(word, 0):`
+
+    이렇게 했더니 딕셔너리에서 zero를 찾아 0을 반환할 때 조건문에 걸리지 않아서 answer에 더해지지 않았다.
+
+  - 그래서 `if NUMBERS.get(word, -1) != -1:` 이렇게 변경!
+
+  - `if word in NUMBERS:` 가 더 깔끔함!
+
+
+
+## Level3. 불량사용자
+
+- 드디어 풀었다..!
+
+- dfs로 풀었다.
+
+- 틀렸던 포인트들
+
+  1. cases에 tuple 형태로 들어가니 순서가 다른데 구성은 같은 튜플들이 중복 제거가 안됐음
+
+     ```python
+     tmp = list(set(comb))
+     if len(tmp) == len(comb):
+     	cases.add(tuple(sorted(tmp)))
+     ```
+
+     그래서 set으로 중복제거한 comb를 다시 list로 만들고 정렬을 해서 tuple로 만들었다.
+
+  2. 테스트케이스5 시간초과
+
+     ```python
+     if graph[level+1][nj] not in comb:
+     ```
+
+     이 조건을 추가해서 해결.
