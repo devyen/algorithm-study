@@ -17,10 +17,11 @@ def solution(num_teams, remote_tasks, office_tasks, employees):
         if person[1] == 0:  # 출근하면
             team_check[person[0]] = 1
 
-    all_remote_teams = []
-    for i in range(1, len(team_check)):
-        if team_check[i] == 0:
-            all_remote_teams.append(i)
+    all_remote_teams = [i for i in range(1, len(team_check)) if team_check[i] == 0]
+    # all_remote_teams = []
+    # for i in range(1, len(team_check)):
+    #     if team_check[i] == 0:
+    #         all_remote_teams.append(i)
 
     for team in all_remote_teams:
         for person in info:
@@ -29,9 +30,10 @@ def solution(num_teams, remote_tasks, office_tasks, employees):
                 break
 
     # 재택 직원 구하기
-    answer = []
-    for i in range(len(info)):
-        if info[i][1] == 1:
-            answer.append(i+1)
+    answer = [i + 1 for i in range(len(info)) if info[i][1] == 1]
+    # answer = []
+    # for i in range(len(info)):
+    #     if info[i][1] == 1:
+    #         answer.append(i+1)
 
     return answer
