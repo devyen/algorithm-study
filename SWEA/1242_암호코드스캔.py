@@ -13,7 +13,6 @@ for tc in range(1, T+1):
     n, m = map(int, input().split())  # n: 세로 길이  m: 가로 길이
     matrix = [input() for _ in range(n)]
 
-    # # 석진
     # for row in matrix:
     #     for x in row:
     #         if x != '0':  # x가 '0'이 아니면
@@ -24,7 +23,7 @@ for tc in range(1, T+1):
     # print(f'#{tc}')
     # print(temp)
 
-    # 내 코드드
+    # 내 코드
    # temp = []
     # raw_codes = []
     # for _ in range(n):
