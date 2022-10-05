@@ -1,33 +1,61 @@
-def to_k_number(n, k):
-    result = ''
-    while n >= k:
-        q, r = divmod(n, k)
-        result = str(r) + result
-        n = q
-    result = str(n) + result
-    return result
+import copy
 
 
-def is_prime(n):
-    if n <= 1:
-        return False
-    for i in range(2, int(n**(1/2))+1):
-        if n % i == 0:
-            return False
-    return True
-    
+def solution(n, info):
+    def cal_diff():
+        ascore = lscore = 0
+        for i in range(11):
+            if info[i] == 0 and lion_info[i] == 0:
+                continue
+            elif info[i] >= lion_info[i]:
+                ascore += 10-i
+            else:
+                lscore += 10-i
+        return lscore - ascore
 
-def solution(n, k):
-    k_number = to_k_number(n, k)
-    nums = k_number.split('0')
-    answer = 0
-    for num in nums:
-        if num == '':
-            continue
-        if int(num) > 1 and is_prime(int(num)):
-            answer += 1
-    return answer
+    def dfs(i, s):
+        nonlocal lion_info, max_diff, result
+
+        if s == n:
+            diff = cal_diff()
+            if diff:
+                if diff > max_diff:
+                    max_diff = diff
+                    result = [copy.deepcopy(lion_info)]
+                elif diff == max_diff:
+                    result.append(copy.deepcopy(lion_info))
+            return
+
+        if i >= len(info):
+            return
+
+        # 마지막 점수면 남은 화살 모두
+        if i == len(info)-1:
+            lion_info[i] = n-s
+            dfs(i + 1, s + lion_info[i])
+            lion_info[i] = 0
+            return
+
+        # 2가지 경우
+        # 어피치보다 1발 더 쏘거나
+        if s+info[i]+1 <= n:
+            lion_info[i] = info[i]+1
+            dfs(i+1, s+lion_info[i])
+        # 아예 쏘지 않거나
+        lion_info[i] = 0
+        dfs(i+1, s+lion_info[i])
+
+        return
+
+    lion_info = [0]*11
+    max_diff = 0
+    result = []
+    dfs(0, 0)
+
+    if len(result) == 0:
+        return [-1]
+    result.sort(key=lambda x: x[::-1], reverse=True)
+    return result[0]
 
 
-result = solution(110011, 10)
-print(result)
+print(solution(10, [0, 0, 0, 0, 0, 0, 0, 0, 3, 4, 3]))
