@@ -1,36 +1,35 @@
-from math import floor
+from collections import deque
 
 
-def solution(enroll, referral, seller, amount):
-    def divide_profit(now, profit):
-        while now != -1:
-            if profit < 10:
-                answer[now] += profit
-                return
-            give = floor(profit*0.1)
-            answer[now] += profit - give
-            now, profit = parents[now], give  # 재할당
+def solution(rows, columns, queries):
+    def switch(x, y):
+        nonlocal min_num
+        q.append(matrix[x][y])
+        min_num = min(min_num, matrix[x][y])
+        matrix[x][y] = q.popleft()
 
-    # 처음에 번호 매겨서 딕셔너리에 저장 -> 시간초과 해결
-    dic = {}
-    for idx, e in enumerate(enroll):
-        dic[e] = idx
+    s, e = 1, columns + 1
+    matrix = []
+    for r in range(rows):
+        matrix.append(list(range(s, e)))
+        s, e = e, e + columns
 
-    parents = [-1]*len(enroll)
-    for idx, r in enumerate(referral):
-        if r != '-':
-            parents[idx] = dic[r]
-
-    answer = [0]*len(enroll)
-    for i in range(len(seller)):
-        divide_profit(dic[seller[i]], amount[i]*100)
+    answer = []
+    for query in queries:
+        x1, y1, x2, y2 = [x-1 for x in query]
+        q = deque([matrix[x1][y1]])
+        min_num = matrix[x1][y1]
+        for j in range(y1 + 1, y2):
+            switch(x1, j)
+        for i in range(x1, x2):
+            switch(i, y2)
+        for j in range(y2, y1, -1):
+            switch(x2, j)
+        for i in range(x2, x1 - 1, -1):
+            switch(i, y1)
+        answer.append(min_num)
     return answer
 
 
-result = solution(
-    ["john", "mary", "edward", "sam", "emily", "jaimie", "tod", "young"],
-    ["-", "-", "mary", "edward", "mary", "mary", "jaimie", "edward"],
-    ["young", "john", "tod", "emily", "mary"],
-    [12, 4, 2, 5, 10],
-)
+result = solution(6, 6, [[2,2,5,4],[3,3,6,6],[5,1,6,3]])
 print(result)
