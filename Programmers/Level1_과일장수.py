@@ -1,8 +1,8 @@
 def solution(k, m, score):
     answer = 0
     score.sort(reverse=True)
-    for s in range(0, len(score)-m+1, m):
-        answer += score[s+m-1]*m
+    for e in range(m-1, len(score), m):
+        answer += score[e]*m
     return answer
 
 
