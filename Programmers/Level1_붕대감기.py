@@ -9,8 +9,7 @@ def solution(bandage, health, attacks):
         # attck 빼기
         answer -= attack
         if answer <= 0:
-            answer = -1
-            break
+            return -1
         pre = now
     
     return answer
